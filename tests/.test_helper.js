@@ -34,12 +34,12 @@ const blogWithUndefinedLikes = {
 }
 
 const blogsInDb = async() => {
-  const blogs = await Blog.find({})
+  const blogs = await Blog.find({}).populate('user', {username:1, name:1})
   return await blogs.map(Blog.format)
 }
 
 const usersInDb = async() => {
-  const users = await User.find({})
+  const users = await User.find({}).populate('blogs')
   return users.map(User.format)
 }
 module.exports = {

@@ -8,7 +8,7 @@ usersRouter.post('/', async (request, response) => {
   try {
     const body = request.body
     const matchingUsers = await User.find({username: body.username})
-    //console.log(matchingUsers)
+    console.log(matchingUsers)
     if(matchingUsers.length > 0) {
       response.status(400).json({error:'username must be unique'})
       return
@@ -22,10 +22,11 @@ usersRouter.post('/', async (request, response) => {
     const user = new User( {
       username : body.username,
       name : body.name,
-      passwordHash
+      passwordHash: passwordHash
     })
     const savedUser = await user.save()
-    response.status(200).json(savedUser)
+    console.log(savedUser)
+    response.status(200).json(User.format(savedUser))
   } catch (exception) {
     console.log(exception)
     response.status(500).json({error: 'Oops ! Something went wrong'})

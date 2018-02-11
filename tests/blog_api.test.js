@@ -2,13 +2,21 @@ const supertest = require('supertest')
 const {app, server} = require('../index')
 const api = supertest(app)
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const {initialBlogs, regularBlog, blogWithUndefinedLikes, blogsInDb} = require('./.test_helper')
 
 
 beforeAll(async() => {
   await Blog.remove({})
+  await User.remove({})
   const blogObjects = initialBlogs.map(blog => new Blog(blog))
   const promiseArray = blogObjects.map(blog => blog.save())
+  const user = {
+    username: "memelord",
+    password:"salainen"
+  }
+  const userObject = new User(user)
+  userObject.save()
 })
 
 describe('Posts ', async() => {
